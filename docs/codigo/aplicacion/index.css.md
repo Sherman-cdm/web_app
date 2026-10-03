@@ -1,0 +1,178 @@
+# index.css
+
+[Índice general](../../../CODIGO_COMPLETO.md) · [Volver al módulo](./README.md) · [Abrir archivo fuente](../../../src/index.css)
+
+**Ruta:** `src/index.css`. Este documento contiene solamente el código de este archivo.
+
+Copia generada para consulta. Para modificar la aplicación, editar el archivo fuente.
+
+```css
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply m-0 bg-[#f4fafb] text-slate-800 antialiased;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    background-image:
+      radial-gradient(ellipse at top left, #ccfbf1 0, transparent 45%),
+      radial-gradient(ellipse at top right, #ede9fe 0, transparent 45%);
+    background-attachment: fixed;
+  }
+  button,
+  input,
+  select {
+    -webkit-tap-highlight-color: transparent;
+  }
+  button {
+    @apply transition-colors;
+  }
+  button:disabled {
+    @apply cursor-not-allowed opacity-50;
+  }
+  :focus-visible {
+    @apply outline-none ring-2 ring-brand-600 ring-offset-2;
+  }
+  h1,
+  h2,
+  h3 {
+    @apply tracking-tight;
+  }
+}
+@layer components {
+  .card {
+    @apply rounded-2xl border border-slate-200/80 bg-white p-5 shadow-soft sm:p-6;
+  }
+  .btn-primary {
+    @apply inline-flex min-h-11 items-center justify-center gap-2 rounded-xl bg-brand-600 bg-gradient-to-r from-brand-700 to-cyan-700 px-5 py-3 text-sm font-semibold text-white shadow-md shadow-teal-900/10 hover:from-brand-900 hover:to-cyan-800 disabled:opacity-50;
+  }
+  .btn-secondary {
+    @apply inline-flex min-h-11 items-center justify-center gap-2 rounded-xl border border-teal-200 bg-white px-4 py-2 text-sm font-semibold text-brand-700 hover:bg-teal-50;
+  }
+  .field {
+    @apply min-h-12 w-full rounded-xl border border-slate-300 bg-white px-3 py-2 text-base focus:border-brand-600;
+  }
+  .eyebrow {
+    @apply text-xs font-bold uppercase tracking-[0.16em] text-brand-600;
+  }
+  .badge {
+    @apply inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold;
+  }
+  .tone-teal {
+    --accent: #0f766e;
+    --tint: #ccfbf1;
+    --wash: #f0fdfa;
+  }
+  .tone-blue {
+    --accent: #1d4ed8;
+    --tint: #dbeafe;
+    --wash: #eff6ff;
+  }
+  .tone-violet {
+    --accent: #6d28d9;
+    --tint: #ede9fe;
+    --wash: #f5f3ff;
+  }
+  .tone-rose {
+    --accent: #be185d;
+    --tint: #fce7f3;
+    --wash: #fdf2f8;
+  }
+  .tone-amber {
+    --accent: #92400e;
+    --tint: #fde68a;
+    --wash: #fffbeb;
+  }
+  .accent-card {
+    border-color: var(--tint);
+    border-top: 4px solid var(--accent);
+    background: linear-gradient(135deg, var(--wash), white);
+  }
+  button.accent-card:hover {
+    border-color: var(--accent);
+    box-shadow: 0 10px 25px -18px var(--accent);
+  }
+  .accent-icon {
+    color: var(--accent);
+    background: var(--tint);
+  }
+  .accent-text {
+    color: var(--accent);
+  }
+  .patient-hero {
+    background:
+      radial-gradient(ellipse at top right, #0e7490, transparent 65%),
+      linear-gradient(125deg, #115e59, #0f766e 55%, #155e75);
+  }
+  .medical-hero {
+    background:
+      radial-gradient(ellipse at top right, #7c3aed, transparent 70%),
+      linear-gradient(125deg, #1e3a8a, #4338ca);
+  }
+  .color-header {
+    border-bottom-color: #a5d8e8;
+    background: linear-gradient(100deg, #f0fdfa, #ffffff 50%, #f5f3ff);
+  }
+  .hospital-surface {
+    background:
+      radial-gradient(ellipse at top right, #ede9fe, transparent 55%),
+      linear-gradient(160deg, #eff6ff, #f8fafc 65%);
+  }
+  .hospital-nav-link {
+    color: #475569;
+  }
+  .hospital-nav-link:hover {
+    background: var(--wash);
+  }
+  .hospital-nav-link[aria-current='page'] {
+    background: var(--tint);
+    color: var(--accent);
+    box-shadow: inset 3px 0 var(--accent);
+    font-weight: 700;
+  }
+  .portal-tab[aria-current='page'] .portal-tab-icon {
+    background: var(--accent);
+    color: white;
+    box-shadow: 0 4px 12px -6px var(--accent);
+  }
+}
+@media print {
+  header,
+  nav,
+  .no-print,
+  footer {
+    display: none !important;
+  }
+  body {
+    background: white;
+  }
+  .hospital-surface {
+    background: white;
+  }
+  main {
+    padding: 0 !important;
+  }
+  .card {
+    box-shadow: none;
+  }
+}
+
+.hospital-dialog {
+  max-height: min(90dvh, 900px);
+}
+.hospital-dialog input[type='checkbox'] {
+  width: 16px;
+  height: 16px;
+  accent-color: #087b70;
+}
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition: none !important;
+    animation: none !important;
+  }
+}
+```

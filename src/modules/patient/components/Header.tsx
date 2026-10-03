@@ -1,0 +1,35 @@
+import { HeartPulse, ShieldCheck } from 'lucide-react';
+import { useAuth } from '../../auth/AuthContext';
+import { LogoutButton } from '../../auth/components/LogoutButton';
+
+export default function Header() {
+  const { session } = useAuth();
+  return (
+    <header className="color-header sticky top-0 z-30 border-b backdrop-blur">
+      <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4 sm:px-8">
+        <div className="flex items-center gap-3">
+          <span className="patient-hero flex h-11 w-11 items-center justify-center rounded-2xl text-white shadow-md shadow-teal-900/15">
+            <HeartPulse aria-hidden="true" size={25} />
+          </span>
+          <div>
+            <p className="text-xl font-bold text-brand-900">
+              Mi salud<span className="text-brand-600">.</span>
+            </p>
+            <p className="text-xs text-slate-500">{session?.user.name ?? 'Hospitales de Pilar'}</p>
+          </div>
+        </div>
+        <div className="flex items-center gap-2">
+          <a
+            href="#login/medical"
+            aria-label="Acceso médico"
+            className="btn-secondary px-3 text-brand-700"
+          >
+            <ShieldCheck size={16} aria-hidden="true" />
+            <span className="hidden sm:inline">Acceso médico</span>
+          </a>
+          <LogoutButton />
+        </div>
+      </div>
+    </header>
+  );
+}

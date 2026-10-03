@@ -1,0 +1,14 @@
+node_modules/
+dist/
+*.local
+coverage/
+.env
+.env.*
+!.env.example
+*.log
+.DS_Store
+Thumbs.db
+# Capturas locales de verificación visual
+/login-*.png
+/portal-hospital-*.png
+/vista-*.png
