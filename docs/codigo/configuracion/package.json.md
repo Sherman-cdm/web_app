@@ -28,6 +28,7 @@ Copia generada para consulta. Para modificar la aplicación, editar el archivo f
     "react-dom": "^19.2.0"
   },
   "devDependencies": {
+    "@types/node": "^22.20.5",
     "@types/react": "^19.2.0",
     "@types/react-dom": "^19.2.0",
     "@vitejs/plugin-react": "^5.0.0",

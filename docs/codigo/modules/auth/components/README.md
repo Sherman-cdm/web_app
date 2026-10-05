@@ -8,3 +8,4 @@ Elegí un apartado o un archivo. Cada enlace abre un documento independiente con
 
 - [LoginForm.tsx](./LoginForm.tsx.md)
 - [LogoutButton.tsx](./LogoutButton.tsx.md)
+- [RegistrationForm.tsx](./RegistrationForm.tsx.md)

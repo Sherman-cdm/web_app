@@ -1,3 +1,4 @@
+import { patientName } from '../../../utils/patientName';
 import { activeReservation } from '../../../domain/appointments';
 import { StatusBadge } from '../../../shared/components/StatusBadge';
 import type { Appointment, AppointmentStatus } from '../../../types';
@@ -18,7 +19,7 @@ export function AppointmentCard({
     <article className="card" key={a.id}>
       <div className="grid gap-4 lg:grid-cols-[1.2fr_1fr_1fr_auto]">
         <div>
-          <h2 className="font-bold">{a.patient.fullName}</h2>
+          <h2 className="font-bold">{patientName(a.patient.fullName)}</h2>
           <p className="mt-1 text-sm text-slate-500">DNI {a.patient.dni}</p>
           <p className="mt-1 break-all text-xs text-slate-400">
             {a.patient.phone} · {a.patient.email}
@@ -48,14 +49,9 @@ export function AppointmentCard({
       {a.reason && <p className="mt-3 text-sm text-slate-500">Motivo: {a.reason}</p>}
       <div className="mt-4 flex flex-wrap gap-2 border-t border-slate-100 pt-3">
         {a.status === 'pending' && (
-          <>
-            <button className="btn-primary py-2" onClick={() => ask(a, 'confirmed')}>
-              Aprobar
-            </button>
-            <button className="btn-secondary text-red-700" onClick={() => ask(a, 'rejected')}>
-              Rechazar
-            </button>
-          </>
+          <button className="btn-primary py-2" onClick={() => ask(a, 'confirmed')}>
+            Aprobar
+          </button>
         )}
         {a.status === 'confirmed' && a.date === todayISO() && (
           <button className="btn-secondary" onClick={() => ask(a, 'arrived')}>

@@ -2,20 +2,20 @@
 
 **Referencia para consultar y copiar el código.** La aplicación ejecuta los archivos de `src/`. Este índice te lleva al módulo y después al archivo que necesitás, sin cargar todo el proyecto en una sola página.
 
-Se documentan **108 archivos**, cada uno en su propia página, dentro de `docs/codigo/`.
+Se documentan **114 archivos**, cada uno en su propia página, dentro de `docs/codigo/`.
 
 | Apartado | Archivos |
 | --- | ---: |
 | [Entrada y estilos de la aplicación](./docs/codigo/aplicacion/README.md) | 3 |
-| [Acceso de pacientes y médicos](./docs/codigo/modules/auth/README.md) | 4 |
-| [Portal del paciente](./docs/codigo/modules/patient/README.md) | 16 |
+| [Acceso de pacientes y médicos](./docs/codigo/modules/auth/README.md) | 5 |
+| [Portal del paciente](./docs/codigo/modules/patient/README.md) | 17 |
 | [Portal hospitalario](./docs/codigo/modules/hospital/README.md) | 26 |
 | [Elementos compartidos](./docs/codigo/shared/README.md) | 12 |
-| [Servicios y pruebas](./docs/codigo/services/README.md) | 12 |
+| [Servicios y pruebas](./docs/codigo/services/README.md) | 14 |
 | [Reglas de negocio](./docs/codigo/domain/README.md) | 5 |
-| [Persistencia e infraestructura](./docs/codigo/infrastructure/README.md) | 3 |
+| [Persistencia e infraestructura](./docs/codigo/infrastructure/README.md) | 4 |
 | [Tipos y contratos](./docs/codigo/types/README.md) | 9 |
-| [Utilidades](./docs/codigo/utils/README.md) | 6 |
+| [Utilidades](./docs/codigo/utils/README.md) | 7 |
 | [Datos de ejemplo](./docs/codigo/mocks/README.md) | 2 |
 | [Configuración del proyecto](./docs/codigo/configuracion/README.md) | 9 |
 | [Herramientas de documentación](./docs/codigo/herramientas/README.md) | 1 |

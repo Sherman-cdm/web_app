@@ -7,7 +7,8 @@
 Copia generada para consulta. Para modificar la aplicación, editar el archivo fuente.
 
 ```tsx
-import { ArrowUpRight, CalendarDays, CalendarPlus, Clock3, Stethoscope, Users } from 'lucide-react';
+import { patientActivityDetail, patientName } from '../../../utils/patientName';
+import { CalendarDays, CalendarPlus, Clock3, Stethoscope, Users } from 'lucide-react';
 import { Empty } from '../../../shared/components/Empty';
 import { PageTitle } from '../../../shared/components/PageTitle';
 import { StatusBadge } from '../../../shared/components/StatusBadge';
@@ -76,16 +77,7 @@ export default function Dashboard() {
       </div>
       <div className="grid gap-6 xl:grid-cols-[1.5fr_1fr]">
         <section className="min-w-0">
-          <div className="mb-4 flex items-center justify-between">
-            <h2 className="text-lg font-bold">Jornada de hoy</h2>
-            <a
-              href="#hospital/appointments"
-              className="flex items-center gap-1 text-xs font-semibold text-brand-600"
-            >
-              Ver todos
-              <ArrowUpRight size={16} />
-            </a>
-          </div>
+          <h2 className="mb-4 text-lg font-bold">Jornada de hoy</h2>
           {today.length ? (
             <div className="card space-y-4">
               {today
@@ -99,7 +91,7 @@ export default function Dashboard() {
                       {a.time}
                     </span>
                     <div className="min-w-0 flex-1">
-                      <p className="text-sm font-semibold">{a.patient.fullName}</p>
+                      <p className="text-sm font-semibold">{patientName(a.patient.fullName)}</p>
                       <p className="mt-1 text-xs text-slate-500">
                         {state.specialties.find((s) => s.id === a.specialtyId)?.name}
                       </p>
@@ -117,15 +109,9 @@ export default function Dashboard() {
             </p>
             <h3 className="mt-3 text-xl font-bold">Un equipo conectado, una agenda clara.</h3>
             <p className="mt-3 text-sm leading-6 text-emerald-50/80">
-              Asigná profesionales a cada área y publicá sus horarios para habilitar las reservas.
+              Desde Agendas en el menú, publicá los horarios de cada profesional para habilitar las
+              reservas.
             </p>
-            <a
-              href="#hospital/agendas"
-              className="mt-5 inline-flex min-h-11 items-center gap-2 rounded-xl bg-white px-4 text-sm font-bold text-brand-900"
-            >
-              Organizar agendas
-              <ArrowUpRight size={17} />
-            </a>
           </div>
         </section>
         <section>
@@ -133,7 +119,7 @@ export default function Dashboard() {
           <div className="card accent-card tone-amber">
             {pending.slice(0, 5).map((a) => (
               <div className="mb-4 border-b border-slate-100 pb-4" key={a.id}>
-                <p className="text-sm font-bold">{a.patient.fullName}</p>
+                <p className="text-sm font-bold">{patientName(a.patient.fullName)}</p>
                 <p className="mt-1 text-xs text-slate-500">
                   {state.specialties.find((s) => s.id === a.specialtyId)?.name}
                 </p>
@@ -147,9 +133,11 @@ export default function Dashboard() {
                 Estás al día. No hay solicitudes pendientes.
               </p>
             )}
-            <a className="btn-secondary w-full" href="#hospital/appointments">
-              Ir a recepción
-            </a>
+            {!!pending.length && (
+              <p className="text-sm text-slate-600">
+                Revisá las solicitudes desde Turnos y recepción en el menú.
+              </p>
+            )}
           </div>
           <h2 className="mb-4 mt-6 text-lg font-bold">Actividad reciente</h2>
           <div className="card accent-card tone-violet">
@@ -159,7 +147,9 @@ export default function Dashboard() {
               .map((a) => (
                 <div key={a.id} className="mb-4 last:mb-0">
                   <p className="text-sm font-semibold">{a.action}</p>
-                  <p className="mt-1 text-xs text-slate-500">{a.detail}</p>
+                  <p className="mt-1 text-xs text-slate-500">
+                    {patientActivityDetail(a.action, a.detail)}
+                  </p>
                 </div>
               ))}
             {!state.audit.some((a) => a.hospitalId === hospitalId) && (

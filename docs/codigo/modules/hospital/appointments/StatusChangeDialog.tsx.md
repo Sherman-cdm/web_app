@@ -7,6 +7,7 @@
 Copia generada para consulta. Para modificar la aplicación, editar el archivo fuente.
 
 ```tsx
+import { patientName } from '../../../utils/patientName';
 import { useState } from 'react';
 import { hospitalApi } from '../../../services/hospitalApi';
 import { AsyncForm } from '../../../shared/components/AsyncForm';
@@ -39,8 +40,8 @@ export function StatusChangeDialog({
         submit="Confirmar cambio"
       >
         <p className="text-sm">
-          {transition.appointment.patient.fullName} · {formatDate(transition.appointment.date)} ·{' '}
-          {transition.appointment.time} h
+          {patientName(transition.appointment.patient.fullName)} ·{' '}
+          {formatDate(transition.appointment.date)} · {transition.appointment.time} h
         </p>
         {['cancelled', 'rejected'].includes(transition.status) && (
           <Field label="Motivo (visible para el paciente)">

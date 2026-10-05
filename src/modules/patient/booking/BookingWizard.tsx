@@ -63,6 +63,11 @@ export default function BookingWizard({
       <p className="eyebrow">Una consulta, paso a paso</p>
       <h1 className="mt-2 text-3xl font-bold">Reservá tu turno</h1>
       <p className="mt-2 text-slate-500">Elegí dónde y cuándo querés atenderte.</p>
+      {hospital && specialty && (
+        <p className="mt-4 rounded-xl border border-teal-200 bg-teal-50 p-4 text-sm text-brand-900">
+          <strong>{hospital.name}</strong> · {specialty.name}
+        </p>
+      )}
       <BookingProgress step={step} />
       <div className="card">
         <h2 ref={heading} tabIndex={-1} className="mb-5 text-xl font-bold">

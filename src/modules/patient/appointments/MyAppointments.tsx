@@ -1,4 +1,5 @@
-import { CalendarDays, Clock3, Plus, Printer } from 'lucide-react';
+import { patientName } from '../../../utils/patientName';
+import { CalendarDays, Clock3, Printer } from 'lucide-react';
 import { useCallback, useEffect, useState } from 'react';
 import { api } from '../../../services/api';
 import { ErrorMessage } from '../../../shared/components/ErrorMessage';
@@ -12,11 +13,9 @@ import { useAuth } from '../../auth/AuthContext';
 export default function MyAppointments({
   hospitals,
   specialties,
-  onBook,
 }: {
   hospitals: Hospital[];
   specialties: Specialty[];
-  onBook: () => void;
 }) {
   const { session } = useAuth();
   const dni = session?.user.patient?.dni ?? '';
@@ -71,10 +70,6 @@ export default function MyAppointments({
           <h1 className="mt-2 text-3xl font-bold">Mis Turnos</h1>
           <p className="mt-2 text-slate-500">Reservas de tu cuenta · DNI {dni}.</p>
         </div>
-        <button type="button" className="btn-primary" onClick={onBook}>
-          <Plus size={18} aria-hidden="true" />
-          Nuevo turno
-        </button>
       </div>
       <p className="my-6 text-sm text-slate-500">Acá aparecen los turnos asociados a tu DNI.</p>
       {error && (
@@ -121,7 +116,7 @@ export default function MyAppointments({
               </p>
               {a.reason && <p className="mt-3 text-sm text-slate-500">Motivo: {a.reason}</p>}
               <div className="mt-4 border-t border-slate-100 pt-4 text-sm">
-                <p className="font-semibold">{a.patient.fullName}</p>
+                <p className="font-semibold">{patientName(a.patient.fullName)}</p>
                 <p className="mt-1 text-slate-500">DNI {a.patient.dni}</p>
                 <p className="mt-2 break-all text-xs text-slate-400">{a.id}</p>
               </div>
@@ -148,11 +143,8 @@ export default function MyAppointments({
             {dni ? 'No hay turnos para este DNI' : 'Tu próxima consulta empieza acá'}
           </h2>
           <p className="my-3 text-sm text-slate-500">
-            Los turnos que reserves aparecerán en esta sección.
+            Elegí Sacar Turno en el menú inferior. Tus reservas aparecerán en esta sección.
           </p>
-          <button type="button" className="btn-primary" onClick={onBook}>
-            Reservar un turno
-          </button>
         </div>
       )}
       {!!filtered.length && (

@@ -6,7 +6,7 @@ Elegí un apartado o un archivo. Cada enlace abre un documento independiente con
 
 ## Apartados
 
-- [Pruebas automatizadas](./__tests__/README.md) — 3 archivos.
+- [Pruebas automatizadas](./__tests__/README.md) — 4 archivos.
 - [Servicios hospitalarios](./hospital/README.md) — 6 archivos.
 
 ## Archivos
@@ -14,3 +14,4 @@ Elegí un apartado o un archivo. Cada enlace abre un documento independiente con
 - [api.ts](./api.ts.md)
 - [authService.ts](./authService.ts.md)
 - [hospitalApi.ts](./hospitalApi.ts.md)
+- [patientRegistration.ts](./patientRegistration.ts.md)

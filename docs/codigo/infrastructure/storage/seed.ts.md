@@ -22,11 +22,12 @@ export function initialState(): HospitalState {
     'Andrés López',
     'Camila Romero',
   ];
+  const scheduledSpecialties = data.specialties.filter((s) => s.schedule.days.length > 0);
   return {
     version: 2,
     hospitals: structuredClone(data.hospitals),
     specialties: data.specialties.map((s) => ({ ...structuredClone(s), active: true })),
-    professionals: data.specialties.map((s, i) => ({
+    professionals: scheduledSpecialties.map((s, i) => ({
       id: `prof-${s.id}`,
       hospitalId: s.hospitalId,
       fullName: names[i],
@@ -36,7 +37,7 @@ export function initialState(): HospitalState {
       phone: '11 5555 1234',
       active: true,
     })),
-    agendas: data.specialties.map((s, i) => ({
+    agendas: scheduledSpecialties.map((s, i) => ({
       ...structuredClone(s.schedule),
       id: `agenda-${s.id}`,
       hospitalId: s.hospitalId,

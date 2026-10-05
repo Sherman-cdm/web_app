@@ -7,6 +7,7 @@
 Copia generada para consulta. Para modificar la aplicación, editar el archivo fuente.
 
 ```tsx
+import { patientName } from '../../../utils/patientName';
 import { HeartPulse, ShieldCheck } from 'lucide-react';
 import { useAuth } from '../../auth/AuthContext';
 import { LogoutButton } from '../../auth/components/LogoutButton';
@@ -15,19 +16,21 @@ export default function Header() {
   const { session } = useAuth();
   return (
     <header className="color-header sticky top-0 z-30 border-b backdrop-blur">
-      <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4 sm:px-8">
-        <div className="flex items-center gap-3">
-          <span className="patient-hero flex h-11 w-11 items-center justify-center rounded-2xl text-white shadow-md shadow-teal-900/15">
+      <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-4 sm:px-8">
+        <div className="flex min-w-0 items-center gap-3">
+          <span className="patient-hero flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl text-white shadow-md shadow-teal-900/15">
             <HeartPulse aria-hidden="true" size={25} />
           </span>
-          <div>
+          <div className="min-w-0">
             <p className="text-xl font-bold text-brand-900">
               Mi salud<span className="text-brand-600">.</span>
             </p>
-            <p className="text-xs text-slate-500">{session?.user.name ?? 'Hospitales de Pilar'}</p>
+            <p className="break-words text-xs text-slate-500">
+              {session ? patientName(session.user.name) : 'Hospitales de Pilar'}
+            </p>
           </div>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex shrink-0 items-center gap-2">
           <a
             href="#login/medical"
             aria-label="Acceso médico"

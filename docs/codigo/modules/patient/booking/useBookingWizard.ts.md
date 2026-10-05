@@ -28,9 +28,13 @@ export function useBookingWizard({
   initialSpecialty,
 }: BookingOptions) {
   const { session } = useAuth();
-  const [step, setStep] = useState(0);
+  const validInitialSpecialty =
+    specialties.some(
+      (s) => s.id === initialSpecialty && s.hospitalId === initialHospital && s.active !== false,
+    ) && hospitals.some((h) => h.id === initialHospital);
+  const [step, setStep] = useState(validInitialSpecialty ? 2 : 0);
   const [hospitalId, setHospitalId] = useState(initialHospital);
-  const [specialtyId, setSpecialtyId] = useState(initialSpecialty ?? '');
+  const [specialtyId, setSpecialtyId] = useState(validInitialSpecialty ? initialSpecialty! : '');
   const [month, setMonth] = useState(() => {
     const d = parseDate(todayISO());
     return new Date(d.getFullYear(), d.getMonth(), 1, 12);

@@ -7,3 +7,4 @@ Elegí un apartado o un archivo. Cada enlace abre un documento independiente con
 ## Archivos
 
 - [SpecialtiesBoard.tsx](./SpecialtiesBoard.tsx.md)
+- [SpecialtyCard.tsx](./SpecialtyCard.tsx.md)

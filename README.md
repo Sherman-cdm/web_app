@@ -60,6 +60,10 @@ Abrir **http://127.0.0.1:5173/**. No se necesita un archivo `.env` ni configurar
 
 ### Cuentas de demostración
 
+También podés seleccionar **Crear cuenta de paciente** en el login y completar nombre y apellido, DNI (7 u 8 números), correo electrónico y contraseña (entre 8 y 128 caracteres). Al finalizar, ingresá con tu DNI y la contraseña elegida. Se validan los DNI y correos duplicados, incluidas las cuentas de ejemplo. El registro público solo crea pacientes; no habilita cuentas médicas.
+
+Las cuentas nuevas persisten en `mi-salud.patient-accounts.v1` dentro de `localStorage`, con un hash PBKDF2 y una sal aleatoria por contraseña. Se recuperan después de recargar o volver a abrir el navegador en el mismo origen. Borrar los datos del navegador elimina esas cuentas. La sesión continúa en `sessionStorage`. No se verifica la titularidad del DNI ni del correo y no se envían emails. Es una función local de demostración; usá datos ficticios y contraseñas que no utilices en otros sitios. La autenticación y verificación reales se implementarán en NestJS.
+
 | Perfil | Usuario | Contraseña |
 | --- | --- | --- |
 | Paciente: María Prueba | DNI `30123456` | `Paciente123!` |
@@ -71,6 +75,10 @@ Cada pantalla ofrece **Completar datos de prueba**. El acceso médico abre la ge
 El paciente ve únicamente los turnos de su DNI y consulta estudios con ese mismo DNI. La reserva precarga sus datos y conserva el DNI de la sesión. Para probar otro paciente, cerrar sesión e ingresar con su cuenta de ejemplo.
 
 El encabezado del paciente incluye un acceso al portal hospitalario. El menú hospitalario permite volver al paciente. Se puede elegir cualquiera de los tres hospitales desde la barra superior. Si Vite anuncia otro puerto, usar ese puerto en ambas direcciones.
+
+En Inicio, seleccionar un hospital en **¿Dónde querés atenderte?** muestra sus especialidades, días y horarios. **Pedir turno** en una especialidad abre directamente el calendario con el hospital y la especialidad precargados; se pueden modificar usando Atrás. Las especialidades sin agenda publicada no permiten iniciar una reserva. La cartelera completa sigue disponible desde Inicio.
+
+Los nombres de pacientes se muestran en mayúsculas en ambos portales, formularios, comprobantes, actividad y exportación de turnos, incluidos los registros existentes. Esta presentación conserva los datos originales y los acentos; no modifica nombres de profesionales, correos ni contraseñas.
 
 ## Portal hospitalario
 
@@ -141,7 +149,7 @@ Ambos portales comparten `mi-salud.hospital.v2` en localStorage. Las reservas de
 
 Se evita la superposición de agendas del mismo profesional o consultorio. Un horario puede tener cupos de distintos profesionales. Las modificaciones que afectan turnos abiertos requieren reprogramarlos o cancelarlos previamente. Web Locks coordina las escrituras entre pestañas del mismo origen cuando está disponible; sin Web Locks, se serializan dentro de cada instancia.
 
-Las interfaces cuentan con **login de demostración y control de navegación por perfil**. Las credenciales son públicas y se verifican en el frontend: **no hay autenticación segura de servidor, autorización real ni base de datos remota**. El filtro de DNI es parte de la experiencia visual, no una barrera de seguridad. Usar únicamente datos de ejemplo. Cambiar de navegador, dominio o puerto cambia el almacenamiento. El registro de actividad es editable desde el navegador y no constituye una auditoría clínica segura. La sesión guarda solo un identificador de cuenta y su vencimiento en `sessionStorage`, nunca la contraseña.
+Las interfaces cuentan con **login de demostración y control de navegación por perfil**. Las credenciales de ejemplo son públicas; las cuentas creadas por pacientes se verifican contra su hash local. En ambos casos la verificación ocurre en el frontend: **no hay autenticación segura de servidor, autorización real ni base de datos remota**. El filtro de DNI es parte de la experiencia visual, no una barrera de seguridad. Usar únicamente datos de ejemplo. Cambiar de navegador, dominio o puerto cambia el almacenamiento. El registro de actividad es editable desde el navegador y no constituye una auditoría clínica segura. La sesión guarda solo un identificador de cuenta y su vencimiento en `sessionStorage`, nunca la contraseña.
 
 ## Estructura
 

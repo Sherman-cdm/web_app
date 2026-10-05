@@ -7,6 +7,7 @@
 Copia generada para consulta. Para modificar la aplicación, editar el archivo fuente.
 
 ```tsx
+import { patientName } from '../../../utils/patientName';
 import { useState } from 'react';
 import { Empty } from '../../../shared/components/Empty';
 import { Modal } from '../../../shared/components/Modal';
@@ -51,10 +52,13 @@ export function Patients() {
             <article className="card" key={dni}>
               <div className="flex items-center gap-3">
                 <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-blue-50 font-bold text-blue-700">
-                  {patient?.fullName.slice(0, 1) ?? 'P'}
+                  {patient?.fullName.slice(0, 1).toLocaleUpperCase('es-AR') ?? 'P'}
                 </div>
                 <div>
-                  <h2 className="font-bold">{patient?.fullName ?? 'Paciente con estudios'}</h2>
+                  <h2 className="font-bold">
+                    {(patient ? patientName(patient.fullName) : undefined) ??
+                      'Paciente con estudios'}
+                  </h2>
                   <p className="text-sm text-slate-500">DNI {dni}</p>
                 </div>
               </div>
@@ -81,7 +85,10 @@ export function Patients() {
       )}
       {selected && (
         <Modal
-          title={getPatient(selected)?.fullName ?? `Paciente · DNI ${selected}`}
+          title={
+            (getPatient(selected) ? patientName(getPatient(selected)!.fullName) : undefined) ??
+            `Paciente · DNI ${selected}`
+          }
           onClose={() => setSelected('')}
         >
           <p className="mb-5 text-sm text-slate-500">DNI {selected} · Historial de este hospital</p>

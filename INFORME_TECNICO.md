@@ -43,7 +43,9 @@ La documentación del código también está modularizada: `CODIGO_COMPLETO.md` 
 
 `modules/auth/` reúne las pantallas de ingreso, el formulario y el contexto de sesión. `authService.ts` valida cuentas públicas de demostración de `mocks/demoAccounts.ts`. Pacientes usan DNI y contraseña; médicos, correo y contraseña. `App.tsx` verifica el perfil antes de mostrar cada portal. Una sesión permite un perfil a la vez, persiste en la pestaña mediante `sessionStorage`, vence a las ocho horas y se cierra desde ambos encabezados.
 
-Las cuentas son `30123456` o `28987654` con `Paciente123!`, y `medico@pilar.demo` con `Medico123!`. No hay alta de cuentas, recuperación de contraseñas ni correspondencia automática entre profesionales nuevos y credenciales. El acceso médico habilita la gestión hospitalaria de ejemplo existente. El portal del paciente filtra turnos por su DNI, utiliza ese DNI para estudios y precarga los datos al reservar.
+Las cuentas de ejemplo son `30123456` o `28987654` con `Paciente123!`, y `medico@pilar.demo` con `Medico123!`. El paciente también puede crear una cuenta local con nombre y apellido, DNI, correo y contraseña. No hay recuperación de contraseñas ni correspondencia automática entre profesionales nuevos y credenciales. El acceso médico habilita la gestión hospitalaria de ejemplo existente. El portal del paciente filtra turnos por su DNI, utiliza ese DNI para estudios y precarga los datos al reservar.
+
+El registro se divide entre `RegistrationForm.tsx`, `patientRegistration.ts` y el repositorio `patientAccounts.ts`. Valida nombre, DNI de 7 u 8 dígitos, correo y contraseña de 8 a 128 caracteres, y rechaza DNI/correos duplicados. Las cuentas se guardan en `mi-salud.patient-accounts.v1`, con PBKDF2-SHA-256 de 210.000 iteraciones y una sal aleatoria por contraseña; nunca se persiste la contraseña ingresada. Web Locks coordina las altas entre pestañas cuando está disponible; sin esta API la comprobación y escritura solo son indivisibles dentro de la instancia. Después del alta se muestra el login con el DNI precargado. Las cuentas funcionan solo en el mismo navegador y origen; no se envían correos ni se verifica la identidad. Esta función sigue siendo una demostración local y deberá sustituirse por el registro de NestJS y PostgreSQL.
 
 Este control es exclusivamente de interfaz: credenciales, sesión y datos son manipulables en el cliente. Para producción se debe sustituir el servicio por autenticación y autorización del servidor, con comprobación de identidad y pertenencia de cada recurso. La separación de pantallas no garantiza confidencialidad clínica.
 
@@ -133,6 +135,12 @@ La compilación realiza el control de TypeScript y genera `dist/`. Publicar esa 
 
 Los DNI iniciales `30123456` y `28987654` tienen estudios de ejemplo. Los registros de prueba del navegador automatizado se generaron en una sesión aislada; no se insertaron en el navegador personal del usuario.
 
+### Actualización del recorrido de reserva
+
+Inicio muestra las especialidades del hospital seleccionado mediante `SpecialtyCard`, compartido con la cartelera. Cada acción de reserva transmite ambos identificadores al wizard y comienza en el calendario si la combinación es válida. El usuario puede retroceder para modificarla; cambiar hospital o especialidad limpia la fecha y el horario previos. Los nombres de pacientes se presentan en mayúsculas mediante un formato compartido, sin alterar los datos guardados; los campos de nombre usan transformación visual en mayúsculas.
+
+Se verificaron los catálogos de los tres hospitales, el inicio directo en calendario, una reserva completa con los identificadores seleccionados, el comprobante y los nombres en turnos, pacientes y actividad hospitalaria. También se revisó la presentación en escritorio y móvil, y la compilación TypeScript/Vite.
+
 ## 5. Hoja de ruta para backend
 
 El stack acordado para esta etapa es **Node.js como entorno de ejecución, NestJS con TypeScript para la API REST y PostgreSQL como base de datos relacional**. Su implementación está pendiente; el frontend entregado utiliza servicios simulados y almacenamiento local. Los módulos NestJS cubrirán identidad y permisos, hospitales, profesionales, áreas, agendas, turnos, pacientes, estudios, reportes y auditoría. Las reservas requerirán transacciones y restricciones en PostgreSQL; la herramienta de acceso a datos y migraciones se elegirá al iniciar esa implementación.
@@ -184,7 +192,8 @@ La separación visual entre portales ya está implementada; la separación de se
 
 Después de la reorganización modular se ejecutaron nuevamente las 25 pruebas, la compilación con detección de imports/variables sin uso y `format:check`. En Chromium se verificaron otra vez la reserva de cinco pasos, aprobación, reprogramación, persistencia, formularios de áreas/profesionales/agendas/bloqueos, publicación de estudios y navegación de los diez módulos en móvil y escritorio, sin errores de consola.
 
-- 33 pruebas automatizadas aprobadas: flujo paciente, migración, persistencia, aprobación, rechazo, reprogramación, aislamiento por hospital en operaciones, profesionales/áreas, agendas superpuestas, capacidad de varios profesionales, bloqueos, estudios, configuración, fallos de almacenamiento y ocho casos de autenticación de demostración.
+- 46 pruebas automatizadas aprobadas: flujo paciente, migración, persistencia, aprobación, rechazo, reprogramación, aislamiento por hospital en operaciones, profesionales/áreas, agendas superpuestas, capacidad de varios profesionales, bloqueos, estudios, configuración, fallos de almacenamiento, ocho casos de autenticación de demostración y trece casos de registro local de pacientes.
+- Registro verificado en navegador: alta, DNI precargado, ingreso, recarga, cierre y reingreso, rechazo de DNI duplicado y ausencia de registro público en el acceso médico. Formulario revisado a 320, 375 y 1280 píxeles, sin desbordamiento horizontal. Capturas de escritorio y móvil inspeccionadas visualmente.
 - Accesos verificados en navegador: contraseña incorrecta, navegación por perfil, acceso directo por URL, recuperación de sesión al recargar, cierre de sesión, reserva con datos precargados y visualización de turnos y estudios de la cuenta activa. Ambas pantallas de acceso se probaron en anchos de 320, 375, 768 y 1280 píxeles, sin desbordamiento horizontal ni errores de consola.
 - Compilación con TypeScript y Vite correcta.
 - Chromium: solicitud del paciente y aprobación hospitalaria, reflejo en Mis Turnos, alta de área/profesional/agenda, creación y reprogramación desde recepción, publicación de estudios al paciente y persistencia al recargar.

@@ -6,4 +6,4 @@ Elegí un apartado o un archivo. Cada enlace abre un documento independiente con
 
 ## Apartados
 
-- [Almacenamiento local](./storage/README.md) — 3 archivos.
+- [Almacenamiento local](./storage/README.md) — 4 archivos.
