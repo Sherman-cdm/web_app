@@ -1,3 +1,4 @@
+import { patientName } from '../../utils/patientName';
 import {
   CalendarDays,
   Check,
@@ -8,11 +9,15 @@ import {
   UserRound,
 } from 'lucide-react';
 import type { UserRole } from '../../types/auth';
+import { useState } from 'react';
 import { useAuth } from './AuthContext';
 import { LoginForm } from './components/LoginForm';
+import { RegistrationForm } from './components/RegistrationForm';
 
 export function LoginPage({ role }: { role: UserRole }) {
   const patient = role === 'patient';
+  const [registering, setRegistering] = useState(false);
+  const [createdDni, setCreatedDni] = useState('');
   const { session } = useAuth();
   const benefits = patient
     ? [
@@ -120,27 +125,69 @@ export function LoginPage({ role }: { role: UserRole }) {
           </nav>
           <p className="eyebrow">{patient ? 'Portal del paciente' : 'Portal médico'}</p>
           <h2 className="mt-3 text-3xl font-bold text-slate-900">
-            {patient ? 'Bienvenido a Mi salud' : 'Acceso del equipo médico'}
+            {patient
+              ? registering
+                ? 'Creá tu cuenta'
+                : 'Bienvenido a Mi salud'
+              : 'Acceso del equipo médico'}
           </h2>
           <p className="mb-7 mt-3 text-sm leading-6 text-slate-500">
             {patient
-              ? 'Ingresá con tu DNI y contraseña para continuar.'
+              ? registering
+                ? 'Completá tus datos para acceder al portal del paciente.'
+                : 'Ingresá con tu DNI y contraseña para continuar.'
               : 'Ingresá con tu correo institucional y contraseña.'}
           </p>
-          <LoginForm key={role} role={role} />
+          {patient && registering ? (
+            <RegistrationForm
+              onBack={() => setRegistering(false)}
+              onCreated={(dni) => {
+                setCreatedDni(dni);
+                setRegistering(false);
+              }}
+            />
+          ) : (
+            <>
+              {patient && createdDni && (
+                <p role="status" className="mb-5 rounded-xl bg-teal-100 p-4 text-sm text-teal-900">
+                  Tu cuenta fue creada. Ingresá con tu DNI y la contraseña que elegiste.
+                </p>
+              )}
+              <LoginForm
+                key={`${role}-${createdDni}`}
+                role={role}
+                initialIdentifier={patient ? createdDni : ''}
+              />
+              {patient && (
+                <button
+                  type="button"
+                  className="btn-secondary mt-5 w-full"
+                  onClick={() => {
+                    setCreatedDni('');
+                    setRegistering(true);
+                  }}
+                >
+                  Crear cuenta de paciente
+                </button>
+              )}
+            </>
+          )}
           {session && session.user.role !== role && (
             <a
               className="mt-5 block min-h-11 text-center text-sm font-semibold text-brand-700"
               href={session.user.role === 'patient' ? '#home' : '#hospital/dashboard'}
             >
-              Volver a la sesión de {session.user.name}
+              Volver a la sesión de{' '}
+              {session.user.role === 'patient' ? patientName(session.user.name) : session.user.name}
             </a>
           )}
           <p className="mt-6 flex items-start gap-2 text-xs leading-5 text-slate-500">
             <ShieldCheck size={17} className="mt-0.5 shrink-0" />
             <span>
-              Acceso de demostración. Usá las cuentas de ejemplo. La autenticación con un servidor
-              todavía no está conectada.
+              {patient
+                ? 'Las cuentas se guardan solo en este navegador. Usá datos de prueba y una contraseña que no uses en otros sitios.'
+                : 'Acceso de demostración para el equipo médico.'}{' '}
+              La autenticación con un servidor todavía no está conectada.
             </span>
           </p>
         </div>

@@ -6,7 +6,7 @@ Elegí un apartado o un archivo. Cada enlace abre un documento independiente con
 
 ## Apartados
 
-- [Componentes](./components/README.md) — 2 archivos.
+- [Componentes](./components/README.md) — 3 archivos.
 
 ## Archivos
 

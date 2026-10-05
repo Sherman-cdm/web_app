@@ -16,7 +16,8 @@ function PortalAccess() {
   }, []);
   const role: UserRole =
     route.startsWith('#hospital') || route === '#login/medical' ? 'medical' : 'patient';
-  if (route.startsWith('#login/') || !canAccess(session, role)) return <LoginPage role={role} />;
+  if (route.startsWith('#login/') || !canAccess(session, role))
+    return <LoginPage key={role} role={role} />;
   return role === 'medical' ? <HospitalPortal /> : <PatientPortal key={session?.user.id} />;
 }
 

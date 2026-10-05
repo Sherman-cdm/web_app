@@ -24,6 +24,7 @@ async function settle<T>(promise: Promise<T>): Promise<T> {
 
 describe('Accesos de demostración por perfil', () => {
   beforeEach(() => {
+    localStorage.clear();
     sessionStorage.clear();
     vi.useFakeTimers();
     vi.setSystemTime(new Date('2026-10-02T15:00:00Z'));

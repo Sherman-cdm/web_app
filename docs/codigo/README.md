@@ -10,10 +10,10 @@ Elegí un apartado o un archivo. Cada enlace abre un documento independiente con
 - [Configuración del proyecto](./configuracion/README.md) — 9 archivos.
 - [Reglas de negocio](./domain/README.md) — 5 archivos.
 - [Herramientas de documentación](./herramientas/README.md) — 1 archivos.
-- [Persistencia e infraestructura](./infrastructure/README.md) — 3 archivos.
+- [Persistencia e infraestructura](./infrastructure/README.md) — 4 archivos.
 - [Datos de ejemplo](./mocks/README.md) — 2 archivos.
-- [Portales de la aplicación](./modules/README.md) — 46 archivos.
-- [Servicios y pruebas](./services/README.md) — 12 archivos.
+- [Portales de la aplicación](./modules/README.md) — 48 archivos.
+- [Servicios y pruebas](./services/README.md) — 14 archivos.
 - [Elementos compartidos](./shared/README.md) — 12 archivos.
 - [Tipos y contratos](./types/README.md) — 9 archivos.
-- [Utilidades](./utils/README.md) — 6 archivos.
+- [Utilidades](./utils/README.md) — 7 archivos.

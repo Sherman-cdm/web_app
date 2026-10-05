@@ -9,3 +9,4 @@ Elegí un apartado o un archivo. Cada enlace abre un documento independiente con
 - [api.test.ts](./api.test.ts.md)
 - [authService.test.ts](./authService.test.ts.md)
 - [hospitalApi.test.ts](./hospitalApi.test.ts.md)
+- [patientRegistration.test.ts](./patientRegistration.test.ts.md)

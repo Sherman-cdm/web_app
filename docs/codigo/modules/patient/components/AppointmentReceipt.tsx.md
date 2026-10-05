@@ -7,6 +7,7 @@
 Copia generada para consulta. Para modificar la aplicación, editar el archivo fuente.
 
 ```tsx
+import { patientName } from '../../../utils/patientName';
 import { CheckCircle2, Printer } from 'lucide-react';
 import type { Appointment, Hospital, Specialty } from '../../../types';
 import { formatDate } from '../../../utils/date';
@@ -42,7 +43,7 @@ export default function AppointmentReceipt({
       </div>
       <dl className="space-y-4 rounded-xl bg-slate-50 p-5">
         {[
-          ['Paciente', appointment.patient.fullName],
+          ['Paciente', patientName(appointment.patient.fullName)],
           ['DNI', appointment.patient.dni],
           ['Hospital', hospital?.name ?? appointment.hospitalId],
           ['Especialidad', specialty?.name ?? appointment.specialtyId],

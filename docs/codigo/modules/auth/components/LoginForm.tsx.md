@@ -15,9 +15,15 @@ import { errorText } from '../../../shared/errors/errorText';
 import type { UserRole } from '../../../types/auth';
 import { useAuth } from '../AuthContext';
 
-export function LoginForm({ role }: { role: UserRole }) {
+export function LoginForm({
+  role,
+  initialIdentifier = '',
+}: {
+  role: UserRole;
+  initialIdentifier?: string;
+}) {
   const { login } = useAuth();
-  const [identifier, setIdentifier] = useState('');
+  const [identifier, setIdentifier] = useState(initialIdentifier);
   const [password, setPassword] = useState('');
   const [visible, setVisible] = useState(false);
   const [busy, setBusy] = useState(false);

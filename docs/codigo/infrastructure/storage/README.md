@@ -8,4 +8,5 @@ Elegí un apartado o un archivo. Cada enlace abre un documento independiente con
 
 - [hospitalRepository.ts](./hospitalRepository.ts.md)
 - [keys.ts](./keys.ts.md)
+- [patientAccounts.ts](./patientAccounts.ts.md)
 - [seed.ts](./seed.ts.md)

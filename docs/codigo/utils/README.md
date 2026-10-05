@@ -9,6 +9,7 @@ Elegí un apartado o un archivo. Cada enlace abre un documento independiente con
 - [csv.ts](./csv.ts.md)
 - [date.ts](./date.ts.md)
 - [delay.ts](./delay.ts.md)
+- [patientName.ts](./patientName.ts.md)
 - [search.ts](./search.ts.md)
 - [status.ts](./status.ts.md)
 - [time.ts](./time.ts.md)

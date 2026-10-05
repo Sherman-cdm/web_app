@@ -1,3 +1,4 @@
+import data from '../../mocks/mockData.json';
 import { validAppointment } from '../../domain/validation';
 import { ApiError } from '../../shared/errors/ApiError';
 import type { HospitalState } from '../../types';
@@ -26,6 +27,18 @@ export function readState(): HospitalState {
         !state.appointments.every(validAppointment)
       )
         throw new Error();
+      const missingSpecialties = data.specialties.filter(
+        (specialty) => !state.specialties.some((saved) => saved.id === specialty.id),
+      );
+      if (missingSpecialties.length > 0) {
+        state.specialties.push(
+          ...missingSpecialties.map((specialty) => ({
+            ...structuredClone(specialty),
+            active: true,
+          })),
+        );
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      }
       return state;
     }
     const state = initialState();

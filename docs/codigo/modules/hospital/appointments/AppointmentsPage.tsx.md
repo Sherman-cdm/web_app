@@ -7,6 +7,7 @@
 Copia generada para consulta. Para modificar la aplicación, editar el archivo fuente.
 
 ```tsx
+import { patientName } from '../../../utils/patientName';
 import { CalendarPlus, Download } from 'lucide-react';
 import { useState } from 'react';
 import { Empty } from '../../../shared/components/Empty';
@@ -120,7 +121,7 @@ export default function AppointmentManager() {
                 ...appointments.map((a) => [
                   a.date,
                   a.time,
-                  a.patient.fullName,
+                  patientName(a.patient.fullName),
                   a.patient.dni,
                   state.specialties.find((s) => s.id === a.specialtyId)?.name ?? '',
                   state.professionals.find((p) => p.id === a.professionalId)?.fullName ?? '',

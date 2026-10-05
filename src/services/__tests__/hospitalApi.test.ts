@@ -114,7 +114,7 @@ describe('Portal hospitalario integrado', () => {
       hospitalApi.saveSpecialty({
         id: '',
         hospitalId: 'central',
-        name: 'Neurología',
+        name: 'Medicina del deporte',
         description: 'Consultas de neurología',
         active: true,
         schedule: { days: [], start: '08:00', end: '12:00', slotMinutes: 30 },

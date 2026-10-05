@@ -63,6 +63,11 @@ export function PatientPortal() {
     setView(next);
     window.location.hash = next;
   }
+  function bookSpecialty(hospitalId: string, specialtyId: string) {
+    setHospitalId(hospitalId);
+    setSpecialtyId(specialtyId);
+    navigate('booking');
+  }
   return (
     <>
       <a
@@ -96,12 +101,14 @@ export function PatientPortal() {
             {view === 'home' && (
               <Home
                 hospitals={hospitals}
+                specialties={specialties}
                 selectedHospital={hospitalId}
                 onHospital={(id) => {
                   setHospitalId(id);
                   setSpecialtyId(undefined);
                 }}
                 onNavigate={navigate}
+                onBook={bookSpecialty}
               />
             )}{' '}
             {view === 'booking' && (
@@ -117,19 +124,11 @@ export function PatientPortal() {
               <SpecialtiesBoard
                 hospitals={hospitals}
                 specialties={specialties}
-                onBook={(h, s) => {
-                  setHospitalId(h);
-                  setSpecialtyId(s);
-                  navigate('booking');
-                }}
+                onBook={bookSpecialty}
               />
             )}{' '}
             {view === 'appointments' && (
-              <MyAppointments
-                hospitals={hospitals}
-                specialties={specialties}
-                onBook={() => navigate('booking')}
-              />
+              <MyAppointments hospitals={hospitals} specialties={specialties} />
             )}{' '}
             {view === 'studies' && <MyStudies hospitals={hospitals} />}
           </>

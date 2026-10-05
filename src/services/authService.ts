@@ -1,4 +1,6 @@
 import { demoAccounts } from '../mocks/demoAccounts';
+import { patientAccountUser, readPatientAccounts } from '../infrastructure/storage/patientAccounts';
+import { derivePassword, registerPatient } from './patientRegistration';
 import type { AuthSession, LoginCredentials, UserRole } from '../types/auth';
 import { wait } from '../utils/delay';
 
@@ -10,6 +12,7 @@ export function canAccess(session: AuthSession | null, role: UserRole) {
 }
 
 export const authService = {
+  registerPatient,
   readSession(): AuthSession | null {
     try {
       const raw = sessionStorage.getItem(SESSION_KEY);
@@ -22,7 +25,11 @@ export const authService = {
       )
         return null;
       const account = demoAccounts.find((account) => account.user.id === stored.userId);
-      return account ? { user: structuredClone(account.user), expiresAt: stored.expiresAt } : null;
+      const registered = account
+        ? undefined
+        : readPatientAccounts().find((item) => item.id === stored.userId);
+      const user = account?.user ?? (registered ? patientAccountUser(registered) : null);
+      return user ? { user: structuredClone(user), expiresAt: stored.expiresAt } : null;
     } catch {
       return null;
     }
@@ -37,10 +44,19 @@ export const authService = {
         account.user.identifier.toLowerCase() === identifier &&
         account.password === credentials.password,
     );
-    if (!account)
+    let user = account?.user;
+    if (!user && credentials.role === 'patient') {
+      const registered = readPatientAccounts().find((item) => item.dni === identifier);
+      if (
+        registered &&
+        (await derivePassword(credentials.password, registered.salt)) === registered.passwordHash
+      )
+        user = patientAccountUser(registered);
+    }
+    if (!user)
       throw new Error('Los datos de acceso no son correctos. Revisá el usuario y la contraseña.');
     const session: AuthSession = {
-      user: structuredClone(account.user),
+      user: structuredClone(user),
       expiresAt: Date.now() + SESSION_DURATION,
     };
     try {

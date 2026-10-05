@@ -163,7 +163,7 @@ export function AppointmentForm({
           ).map((f) => (
             <Field label={f.label} key={f.key}>
               <input
-                className="field"
+                className={`field ${f.key === 'fullName' ? 'uppercase' : ''}`}
                 required
                 type={f.type}
                 pattern={f.key === 'dni' ? '[0-9]{7,8}' : undefined}

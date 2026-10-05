@@ -1,7 +1,7 @@
-import { CalendarDays, Clock3, Search } from 'lucide-react';
+import { Search } from 'lucide-react';
 import { useMemo, useState } from 'react';
 import type { Hospital, Specialty } from '../../../types';
-import { weekdays } from '../../../utils/date';
+import { SpecialtyCard } from './SpecialtyCard';
 
 export default function SpecialtiesBoard({
   hospitals,
@@ -67,30 +67,12 @@ export default function SpecialtiesBoard({
       </p>
       <div className="grid gap-4 md:grid-cols-2">
         {filtered.map((s) => (
-          <article className="card" key={s.id}>
-            <p className="eyebrow">{hospitals.find((h) => h.id === s.hospitalId)?.shortName}</p>
-            <h2 className="mt-2 text-xl font-bold">{s.name}</h2>
-            <p className="mt-2 text-sm text-slate-500">{s.description}</p>
-            <p className="mt-5 flex items-start gap-2 text-sm capitalize">
-              <CalendarDays
-                size={17}
-                className="mt-0.5 shrink-0 text-brand-600"
-                aria-hidden="true"
-              />
-              {s.schedule.days.map((d) => weekdays[d]).join(', ')}
-            </p>
-            <p className="mt-2 flex items-center gap-2 text-sm">
-              <Clock3 size={17} className="text-brand-600" aria-hidden="true" />
-              {s.schedule.start} a {s.schedule.end} h
-            </p>
-            <button
-              type="button"
-              className="btn-secondary mt-5 w-full text-brand-600"
-              onClick={() => onBook(s.hospitalId, s.id)}
-            >
-              Reservar en esta especialidad
-            </button>
-          </article>
+          <SpecialtyCard
+            key={s.id}
+            specialty={s}
+            hospital={hospitals.find((h) => h.id === s.hospitalId)}
+            onBook={onBook}
+          />
         ))}
       </div>
       {!filtered.length && (

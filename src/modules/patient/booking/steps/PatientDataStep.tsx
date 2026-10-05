@@ -67,7 +67,7 @@ export function PatientDataStep({
             <input
               required
               readOnly={field.key === 'dni'}
-              className="field mt-2"
+              className={`field mt-2 ${field.key === 'fullName' ? 'uppercase' : ''}`}
               type={field.type}
               inputMode={field.key === 'dni' ? 'numeric' : undefined}
               pattern={

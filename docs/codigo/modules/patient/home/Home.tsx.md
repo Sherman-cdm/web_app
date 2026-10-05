@@ -7,29 +7,43 @@
 Copia generada para consulta. Para modificar la aplicación, editar el archivo fuente.
 
 ```tsx
-import {
-  ArrowRight,
-  Building2,
-  CalendarPlus,
-  FileHeart,
-  ListFilter,
-  MapPin,
-  Sparkles,
-} from 'lucide-react';
-import type { Hospital, View } from '../../../types';
+import { ArrowRight, Building2, MapPin, Sparkles } from 'lucide-react';
+import { useRef } from 'react';
+import type { Hospital, Specialty, View } from '../../../types';
+import { SpecialtyCard } from '../specialties/SpecialtyCard';
 
 export default function Home({
   hospitals,
+  specialties,
   selectedHospital,
   onHospital,
   onNavigate,
+  onBook,
 }: {
   hospitals: Hospital[];
+  specialties: Specialty[];
   selectedHospital: string;
   onHospital: (id: string) => void;
   onNavigate: (view: View) => void;
+  onBook: (hospitalId: string, specialtyId: string) => void;
 }) {
   const hospital = hospitals.find((h) => h.id === selectedHospital);
+  const availableSpecialties = specialties.filter(
+    (s) => s.hospitalId === selectedHospital && s.active !== false,
+  );
+  const specialtiesHeading = useRef<HTMLHeadingElement>(null);
+  function selectHospital(id: string) {
+    onHospital(id);
+    requestAnimationFrame(() => {
+      specialtiesHeading.current?.focus({ preventScroll: true });
+      specialtiesHeading.current?.scrollIntoView({
+        block: 'start',
+        behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches
+          ? 'instant'
+          : 'smooth',
+      });
+    });
+  }
   return (
     <div className="space-y-7">
       <section className="patient-hero relative overflow-hidden rounded-3xl p-6 text-white shadow-lg shadow-teal-900/15 sm:p-10">
@@ -45,14 +59,6 @@ export default function Home({
           <p className="mt-4 max-w-md text-sm leading-6 text-emerald-50/80 sm:text-base">
             Elegí tu hospital, reservá una consulta y encontrá tus estudios en un mismo lugar.
           </p>
-          <button
-            type="button"
-            className="mt-6 inline-flex min-h-12 items-center gap-3 rounded-xl bg-white px-5 font-semibold text-brand-900 hover:bg-emerald-50"
-            onClick={() => onNavigate('booking')}
-          >
-            Reservar un turno
-            <ArrowRight size={18} aria-hidden="true" />
-          </button>
         </div>
       </section>
       <section>
@@ -66,7 +72,8 @@ export default function Home({
               type="button"
               key={h.id}
               aria-pressed={selectedHospital === h.id}
-              onClick={() => onHospital(h.id)}
+              aria-controls="hospital-specialties"
+              onClick={() => selectHospital(h.id)}
               className={`card accent-card ${['tone-teal', 'tone-blue', 'tone-violet'][index % 3]} text-left transition ${selectedHospital === h.id ? 'ring-2 ring-brand-600 ring-offset-2' : ''}`}
             >
               <div className="mb-4 flex items-center justify-between">
@@ -86,51 +93,43 @@ export default function Home({
           ))}
         </div>
       </section>
-      <section>
-        <h2 className="mb-4 text-lg font-bold">Todo lo que necesitás</h2>
-        <div className="grid gap-3 sm:grid-cols-3">
-          {[
-            {
-              view: 'booking' as const,
-              title: 'Sacar un turno',
-              description: 'Elegí el día y horario para tu consulta.',
-              icon: CalendarPlus,
-              color: 'tone-teal',
-            },
-            {
-              view: 'studies' as const,
-              title: 'Consultar estudios',
-              description: 'Buscá resultados con tu número de DNI.',
-              icon: FileHeart,
-              color: 'tone-rose',
-            },
-            {
-              view: 'specialties' as const,
-              title: 'Especialidades',
-              description: 'Conocé los días y horarios de atención.',
-              icon: ListFilter,
-              color: 'tone-violet',
-            },
-          ].map((item) => (
-            <button
-              type="button"
-              key={item.view}
-              className={`card accent-card group text-left ${item.color}`}
-              onClick={() => onNavigate(item.view)}
-            >
-              <item.icon
-                className="accent-icon mb-4 rounded-xl p-2.5"
-                size={44}
-                aria-hidden="true"
-              />
-              <h3 className="flex items-center justify-between font-semibold">
-                {item.title}
-                <ArrowRight size={18} className="accent-text" aria-hidden="true" />
-              </h3>
-              <p className="mt-2 text-sm leading-6 text-slate-500">{item.description}</p>
-            </button>
+      <section id="hospital-specialties" aria-labelledby="hospital-specialties-title">
+        <h2
+          ref={specialtiesHeading}
+          tabIndex={-1}
+          id="hospital-specialties-title"
+          className="scroll-mt-28 text-lg font-bold focus:outline-none"
+        >
+          Especialidades de {hospital?.name}
+        </h2>
+        <p className="mb-4 mt-2 text-sm text-slate-500" aria-live="polite">
+          {availableSpecialties.length} especialidades en {hospital?.shortName}. Elegí una para
+          pedir turno.
+        </p>
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {availableSpecialties.map((specialty) => (
+            <SpecialtyCard
+              key={specialty.id}
+              specialty={specialty}
+              hospital={hospital}
+              onBook={onBook}
+            />
           ))}
         </div>
+        {!availableSpecialties.length && (
+          <p className="card text-sm text-slate-500">
+            Este hospital todavía no tiene especialidades publicadas. Podés seleccionar otro
+            hospital.
+          </p>
+        )}
+        <button
+          type="button"
+          className="mt-4 inline-flex min-h-11 items-center gap-2 text-sm font-semibold text-brand-700"
+          onClick={() => onNavigate('specialties')}
+        >
+          Ver cartelera de todos los hospitales
+          <ArrowRight size={18} aria-hidden="true" />
+        </button>
       </section>
       <aside className="rounded-2xl border border-brand-100 bg-brand-50 p-5 text-sm text-brand-900">
         <p className="font-semibold">Tu hospital seleccionado: {hospital?.shortName}</p>

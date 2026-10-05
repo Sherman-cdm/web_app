@@ -10,7 +10,7 @@ Elegí un apartado o un archivo. Cada enlace abre un documento independiente con
 - [Reserva paso a paso](./booking/README.md) — 8 archivos.
 - [Componentes](./components/README.md) — 3 archivos.
 - [Inicio](./home/README.md) — 1 archivos.
-- [Cartelera de especialidades](./specialties/README.md) — 1 archivos.
+- [Cartelera de especialidades](./specialties/README.md) — 2 archivos.
 - [Estudios y resultados](./studies/README.md) — 1 archivos.
 
 ## Archivos
